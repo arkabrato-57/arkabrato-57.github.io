@@ -152,8 +152,8 @@
   <!-- EXPERIENCE -->
   <section class="view" id="view-experience">
     <h1 class="page-title">Experience</h1>
-    <p class="page-sub">Research and industry roles, most recent first.</p>
-    <h2 style="margin-top:8px">Research &amp; Industry</h2>
+    <p class="page-sub">Academic and industry roles, most recent first.</p>
+    <h2 style="margin-top:8px">Work Experience</h2>
     <ul class="timeline" id="jobs"></ul>
     <h2>Education</h2>
     <ul class="timeline" id="edu"></ul>
@@ -168,7 +168,7 @@
    ============================================================ */
 const SITE = {
   name: "Arkabrato Chakraborty",
-  role: "Ph.D. Scholar · Computer Science & Engineering · Your University",
+  role: "Ph.D. Scholar · Computer Science & Engineering · IIT Kharagpur",
   photo: "", // paste a data: URI here for your own photo; leave empty for initials
   bio: [
     `Hello 👋. I am Arkabrato Chakraborty, a research scholar in the Department of Computer Science and Engineering at <a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener">IIT Kharagpur</a>. I work under the supervision of <a href="https://cse.iitkgp.ac.in/~adas/" target="_blank" rel="noopener">Prof. Abir Das</a> and <a href="https://sites.google.com/site/saptarshighosh/" target="_blank" rel="noopener">Prof. Saptarshi Ghosh</a>. My research focuses on <b>fairness in multimodal AI</b>: I study how vision-language models pick up racial and gender biases, and I build methods to measure and mitigate them.`,
@@ -194,16 +194,16 @@ const SITE = {
        links: { Website: "#", Paper: "#" } } */
   competitions: [],
   jobs: [
-    { title: "Assistant Professor", org: "ITER,Siksha O Anusandhan University", place: "Bhubaneswar", when: "Sep 2021 – June 2024",
-      points: ["Working on multimodal model evaluation.", "Add one or two lines about your contribution."] },
+    { title: "Assistant Professor", org: "ITER, Siksha 'O' Anusandhan University", place: "Bhubaneswar", when: "Sep 2021 – June 2024",
+      points: ["Taught undergraduate Computer Science courses."] },
     
     { title: "Software Engineer", org: "TCS", place: "Thane", when: "Aug 2015 – Sep 2018",
-      points: ["Built and shipped features used by millions of users."] },
+      points: ["Worked as a software engineer."] },
     
   ],
   education: [
     { title: "Ph.D., Computer Science & Engineering", org: "IIT Kharagpur", when: "2024 – Present",
-      points: ["Advisors: <a href="https://cse.iitkgp.ac.in/~adas/" target="_blank" rel="noopener">Prof. Abir Das </a>and <a href="https://sites.google.com/site/saptarshighosh/" target="_blank" rel="noopener">Prof. Saptarshi Ghosh"</a>] },
+      points: [`Advisors: <a href="https://cse.iitkgp.ac.in/~adas/" target="_blank" rel="noopener">Prof. Abir Das</a> and <a href="https://sites.google.com/site/saptarshighosh/" target="_blank" rel="noopener">Prof. Saptarshi Ghosh</a>`] },
     { title: "B.Tech., Your Branch", org: "Your Undergraduate Institute", when: "2016 – 2020", points: [] }
   ]
 };
@@ -233,7 +233,9 @@ $("photo").innerHTML = SITE.photo
 $("bio").innerHTML = SITE.bio.map(p => `<p>${p}</p>`).join("");
 $("links").innerHTML = SITE.links.map(l =>
   `<a class="chip" href="${l.url}" target="_blank" rel="noopener">${ICONS[l.icon] || ICONS.link}${l.label}</a>`).join("");
-$("email").innerHTML = `Email: <code>${SITE.email}</code>`;
+const emails = [].concat(SITE.email || []);
+$("email").innerHTML = (emails.length > 1 ? "Emails: " : "Email: ") +
+  emails.map(e => `<code>${e}</code>`).join(" &nbsp;·&nbsp; ");
 $("updates").innerHTML = SITE.updates.map(u =>
   `<li><span class="date">${u.date}</span><span>${u.tag ? `<span class="badge">${u.tag}</span>` : ""}${u.text}</span></li>`).join("");
 
