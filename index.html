@@ -145,7 +145,7 @@
     <h2 style="margin-top:8px">Refereed Conferences and Journals</h2>
     <p class="note">Conference ratings are the CORE rank at the time of paper acceptance.</p>
     <div id="pubs"></div>
-    <h2>Competitions</h2>
+    <h2 id="comps-heading">Competitions</h2>
     <ul class="comp" id="comps"></ul>
   </section>
 
@@ -178,7 +178,7 @@ const SITE = {
   email: "yourname [at] university [dot] edu",
   links: [
     { label: "Google Scholar", url: "https://scholar.google.com/", icon: "scholar" },
-    { label: "LinkedIn",       url: "https://www.linkedin.com/arka57",   icon: "linkedin" },
+    { label: "LinkedIn",       url: "https://www.linkedin.com/in/arka57",   icon: "linkedin" },
     { label: "GitHub",         url: "https://github.com/arkabrato-57",         icon: "github" },
     { label: "CV",             url: "#",                           icon: "cv" }
   ],
@@ -190,6 +190,10 @@ const SITE = {
       title: "Anyone Can Be a Doctor: Debiasing VLMs via Task-Vector Negation",
       venue: "ICVGIP 2026, Main", links: { Paper: "#", Arxiv: "#", GitHub: "#" } },
   ],
+  /* Competitions / shared tasks — leave empty [] to hide the section. Example:
+     { text: `<b>Shared Task 2025</b> — Organizing team.`, paper: `Authors. <i>Overview paper title.</i> [Venue]`,
+       links: { Website: "#", Paper: "#" } } */
+  competitions: [],
   jobs: [
     { title: "Research Intern", org: "Company Name", place: "City", when: "Sep 2026 – Present",
       points: ["Working on multimodal model evaluation.", "Add one or two lines about your contribution."] },
@@ -236,25 +240,38 @@ $("email").innerHTML = `Email: <code>${SITE.email}</code>`;
 $("updates").innerHTML = SITE.updates.map(u =>
   `<li><span class="date">${u.date}</span><span>${u.tag ? `<span class="badge">${u.tag}</span>` : ""}${u.text}</span></li>`).join("");
 
-// Publications with filters
-const types = ["All", ...new Set(SITE.publications.map(p => p.type))];
-let filter = "All";
-$("pub-sub").textContent = `${SITE.publications.length} papers · reverse chronological. See also Google Scholar for the full list.`;
-function renderPubs(){
-  $("filters").innerHTML = types.map(t =>
-    `<button class="${t===filter?"on":""}" data-t="${t}">${t}</button>`).join("");
-  const list = SITE.publications.filter(p => filter==="All" || p.type===filter);
-  const years = [...new Set(list.map(p => p.year))].sort((a,b) => b-a);
-  $("pubs").innerHTML = years.map(y => `<div class="year">${y}</div>` + list.filter(p => p.year===y).map(p => `
-    <div class="pub">
-      <p class="pub-title">${p.title}</p>
-      <p class="authors">${p.authors.map(a => a===SITE.name ? `<b>${a}</b>` : a).join(", ")}</p>
-      <p class="venue"><em>${p.venue}</em>${p.note ? " · " + p.note : ""}</p>
-      ${p.links ? `<div class="pub-links">${Object.entries(p.links).map(([k,v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("")}</div>` : ""}
-    </div>`).join("")).join("");
+// Publications: [c1]-style labels, numbered oldest = 1, shown newest first by year
+const bracketLinks = links => links ? Object.entries(links).map(([k,v]) =>
+  `<a class="bl" href="${v}" target="_blank" rel="noopener">[${k}]</a>`).join(" ") : "";
+const counters = {};
+const pubs = SITE.publications.map(p => ({...p}));
+for (let i = pubs.length - 1; i >= 0; i--) {
+  const t = pubs[i].type; counters[t] = (counters[t] || 0) + 1; pubs[i].label = t + counters[t];
 }
-$("filters").addEventListener("click", e => { const b = e.target.closest("button"); if(b){ filter = b.dataset.t; renderPubs(); } });
-renderPubs();
+const pubYears = [...new Set(pubs.map(p => p.year))].sort((a,b) => b-a);
+$("pubs").innerHTML = pubYears.map(y => `<div class="year">${y}</div><ul class="pubs">` +
+  pubs.filter(p => p.year===y).map(p => `
+    <li class="pub">
+      <span class="label">[${p.label}]</span>
+      <p class="pub-body">
+        ${p.authors.map(a => a.replace(/\*$/,"")===SITE.name ? `<span class="me">${a}</span>` : a).join(", ")}
+        <span class="sep"> - </span><span class="ptitle">${p.title}</span>
+        <span class="sep"> - </span><span class="venue">[${p.venue}]</span>
+        ${bracketLinks(p.links)}
+      </p>
+    </li>`).join("") + `</ul>`).join("");
+
+// Competitions (section is hidden when the list is empty)
+const comps = SITE.competitions || [];
+if (comps.length) {
+  $("comps").innerHTML = comps.map(c =>
+    `<li>${c.text} ${c.links && c.links.Website ? `<a class="bl" href="${c.links.Website}" target="_blank" rel="noopener">[Website]</a>` : ""}
+     <br><span style="color:var(--muted)">${c.paper || ""}</span>
+     ${c.links && c.links.Paper ? `<a class="bl" href="${c.links.Paper}" target="_blank" rel="noopener">[Paper]</a>` : ""}</li>`).join("");
+} else {
+  $("comps-heading").style.display = "none";
+  $("comps").style.display = "none";
+}
 
 // Experience
 const jobHTML = j => `<li class="job">
