@@ -65,18 +65,21 @@
   .badge{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--tag);background:var(--tag-soft);padding:2px 8px;border-radius:5px;margin-right:6px;vertical-align:1px}
 
   /* Publications */
-  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-  .filters button{font:inherit;font-size:.88rem;font-weight:500;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
-  .filters button.on{background:var(--accent);border-color:var(--accent);color:var(--bg)}
-  .year{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--muted);margin:32px 0 6px}
-  .pub{padding:16px 0;border-bottom:1px solid var(--line)}
+   :root{ --saffron:#FF9933; }
+  .note{font-size:.9rem;color:var(--muted);font-style:italic;margin:-6px 0 8px}
+  .year{font-family:var(--serif);font-size:1.2rem;font-weight:700;margin:30px 0 4px}
+  .pubs{list-style:none;padding:0;margin:0}
+  .pub{display:grid;grid-template-columns:46px 1fr;gap:6px;padding:11px 0;border-bottom:1px dashed var(--line)}
   .pub:last-child{border-bottom:0}
-  .pub-title{font-family:var(--serif);font-size:1.12rem;font-weight:600;margin:0 0 4px}
-  .authors{color:var(--muted);font-size:.93rem;margin:0}
-  .authors b{color:var(--ink);font-weight:600}
-  .venue{font-size:.93rem;margin:4px 0 0}
-  .venue em{font-style:normal;font-weight:600}
-  .pub-links{display:flex;gap:14px;margin-top:6px;font-size:.88rem;font-weight:500}
+  .label{color:var(--saffron);font-weight:700;font-variant-numeric:tabular-nums}
+  .pub-body{margin:0}
+  .me{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  .pub-body .ptitle{font-weight:600;font-family:var(--serif);font-size:1.04rem}
+  .pub-body .venue{font-weight:600;color:var(--ink)}
+  .pub-body .sep{color:var(--muted)}
+  .pub-body .bl{font-size:.9rem;font-weight:500;margin-left:2px;white-space:nowrap}
+  .comp{padding-left:20px;margin:0}
+  .comp li{margin:0 0 14px}
 
   /* Experience */
   .timeline{position:relative;margin:0;padding:0;list-style:none}
@@ -179,21 +182,9 @@ const SITE = {
     { date: "Oct 2026", tag: "Paper",      text: `Paper on <i>Anyone Can Be a Doctor: Debiasing VLMs via Task-Vector Negation</i> accepted at <b>ICVGIP 2026</b>. <a href="#">[paper]</a>` },   
   ],
   publications: [
-    { year: 2026, type: "Conference", title: "A Multimodal Framework for Understanding Harmful Content in Short Videos",
-      authors: ["Your Name", "Co-author One", "Advisor Name"], venue: "ACL 2026", note: "Main Conference",
-      links: { Paper: "#", Code: "#" } },
-    { year: 2026, type: "Conference", title: "Benchmarking Vision-Language Models for Content Moderation",
-      authors: ["Co-author Two", "Your Name", "Advisor Name"], venue: "EMNLP 2026", note: "Findings",
-      links: { Paper: "#", Dataset: "#" } },
-    { year: 2026, type: "Conference", title: "Explaining Model Decisions on Memes with Structured Rationales",
-      authors: ["Your Name", "Co-author Three", "Advisor Name"], venue: "ACM Multimedia 2026",
-      links: { Paper: "#" } },
-    { year: 2025, type: "Journal", title: "A Survey of Multimodal Learning for Online Safety",
-      authors: ["Your Name", "Advisor Name"], venue: "Transactions of the ACL (TACL)",
-      links: { Paper: "#" } },
-    { year: 2025, type: "Workshop", title: "Low-Resource Detection of Abusive Language in Code-Mixed Text",
-      authors: ["Your Name", "Co-author Four"], venue: "COLING 2025 Workshop",
-      links: { Paper: "#", Code: "#" } }
+    { year: 2026, type: "c", authors: ["Arkabrato Chakraborty", "Naquee Rizwan", "Saptarshi Ghosh","Abir Das"],
+      title: "Anyone Can Be a Doctor: Debiasing VLMs via Task-Vector Negation",
+      venue: "ICVGIP 2026, Main", links: { Paper: "#", Arxiv: "#", GitHub: "#" } },
   ],
   jobs: [
     { title: "Research Intern", org: "Company Name", place: "City", when: "Sep 2026 – Present",
