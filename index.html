@@ -23,15 +23,16 @@
   a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
   a:hover{border-bottom-color:var(--accent)}
 
-  /* Header / nav */
-  header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+   /* Header / nav */
+  :root{ --header-bg:#F26A21; --header-line:#C9531A; --header-pill:rgba(255,255,255,.55); --header-text:#3A2410; --header-ink:#1D1F23; }
+  header{position:sticky;top:0;z-index:10;background:var(--header-bg);border-bottom:1px solid var(--header-line)}
   .bar{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .brand{font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--ink);border:0}
+  .brand{font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--header-ink);border:0}
   .brand:hover{border:0}
   nav{display:flex;gap:4px}
-  nav a{color:var(--muted);font-weight:500;font-size:.95rem;padding:6px 12px;border-radius:999px;border:0}
-  nav a:hover{color:var(--ink);background:var(--accent-soft);border:0}
-  nav a.active{color:var(--accent);background:var(--accent-soft)}
+  nav a{color:var(--header-text);font-weight:500;font-size:.95rem;padding:6px 12px;border-radius:999px;border:0}
+  nav a:hover{color:var(--header-ink);background:rgba(255,255,255,.3);border:0}
+  nav a.active{color:var(--header-ink);background:var(--header-pill);font-weight:600}
 
   main{max-width:880px;margin:0 auto;padding:48px 24px 72px}
   .view{display:none;animation:fade .25s ease}
