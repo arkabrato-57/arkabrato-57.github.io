@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name — Personal Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf7; --surface:#ffffff; --ink:#1d1f23; --muted:#5d636d; --line:#e6e2da;
+    --accent:#1f4e79; --accent-soft:#e8eff6; --tag:#8a5a1f; --tag-soft:#f6eedf;
+    --serif:'Source Serif 4', Georgia, serif; --sans:'Inter', system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14161a; --surface:#1b1e23; --ink:#e9e7e2; --muted:#a2a7b0; --line:#2c3038;
+      --accent:#8db8e3; --accent-soft:#1e2a37; --tag:#e0b67c; --tag-soft:#2e261b; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+  a:hover{border-bottom-color:var(--accent)}
+
+  /* Header / nav */
+  header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .bar{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--ink);border:0}
+  .brand:hover{border:0}
+  nav{display:flex;gap:4px}
+  nav a{color:var(--muted);font-weight:500;font-size:.95rem;padding:6px 12px;border-radius:999px;border:0}
+  nav a:hover{color:var(--ink);background:var(--accent-soft);border:0}
+  nav a.active{color:var(--accent);background:var(--accent-soft)}
+
+  main{max-width:880px;margin:0 auto;padding:48px 24px 72px}
+  .view{display:none;animation:fade .25s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  h1,h2,h3{font-family:var(--serif);line-height:1.25;margin:0}
+  h1{font-size:2.4rem;font-weight:700;letter-spacing:-.01em}
+  h2{font-size:1.5rem;font-weight:600;margin:48px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .page-title{margin-bottom:8px}
+  .page-sub{color:var(--muted);margin:0 0 32px}
+
+  /* Hero */
+  .hero{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start}
+  .photo{width:200px;height:200px;border-radius:14px;overflow:hidden;background:var(--accent-soft);border:1px solid var(--line)}
+  .photo svg,.photo img{width:100%;height:100%;display:block;object-fit:cover}
+  .role{font-size:1.05rem;color:var(--muted);margin:6px 0 18px}
+  .bio p{margin:0 0 14px}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:.9rem;font-weight:500;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink)}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip svg{width:15px;height:15px}
+  .email{margin-top:14px;font-size:.92rem;color:var(--muted)}
+  .email code{font-family:var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:2px 8px;border-radius:6px;user-select:all}
+
+  /* Updates */
+  .updates{list-style:none;padding:0;margin:0}
+  .updates li{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .updates li:last-child{border-bottom:0}
+  .date{font-size:.85rem;font-weight:600;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+  .badge{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--tag);background:var(--tag-soft);padding:2px 8px;border-radius:5px;margin-right:6px;vertical-align:1px}
+
+  /* Publications */
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .filters button{font:inherit;font-size:.88rem;font-weight:500;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+  .filters button.on{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+  .year{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--muted);margin:32px 0 6px}
+  .pub{padding:16px 0;border-bottom:1px solid var(--line)}
+  .pub:last-child{border-bottom:0}
+  .pub-title{font-family:var(--serif);font-size:1.12rem;font-weight:600;margin:0 0 4px}
+  .authors{color:var(--muted);font-size:.93rem;margin:0}
+  .authors b{color:var(--ink);font-weight:600}
+  .venue{font-size:.93rem;margin:4px 0 0}
+  .venue em{font-style:normal;font-weight:600}
+  .pub-links{display:flex;gap:14px;margin-top:6px;font-size:.88rem;font-weight:500}
+
+  /* Experience */
+  .timeline{position:relative;margin:0;padding:0;list-style:none}
+  .timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .job{position:relative;padding:0 0 30px 36px}
+  .job::before{content:"";position:absolute;left:0;top:7px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+  .job-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;align-items:baseline}
+  .job h3{font-size:1.15rem;font-weight:600}
+  .when{font-size:.88rem;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+  .org{color:var(--accent);font-weight:500;margin:2px 0 8px}
+  .job ul{margin:0;padding-left:18px;color:var(--ink)}
+  .job li{margin:3px 0}
+
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+  footer .bar{justify-content:center}
+
+  @media (max-width:640px){
+    h1{font-size:1.9rem}
+    .hero{grid-template-columns:1fr;gap:24px}
+    .photo{width:140px;height:140px}
+    .updates li{grid-template-columns:1fr;gap:2px}
+    .bar{padding:12px 16px}
+    nav a{padding:6px 9px;font-size:.9rem}
+    main{padding:32px 18px 56px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="#home" id="brand"></a>
+    <nav>
+      <a href="#home" data-view="home">Home</a>
+      <a href="#publications" data-view="publications">Publications</a>
+      <a href="#experience" data-view="experience">Experience</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="view" id="view-home">
+    <div class="hero">
+      <div class="photo" id="photo"></div>
+      <div>
+        <h1 id="name"></h1>
+        <p class="role" id="role"></p>
+        <div class="bio" id="bio"></div>
+        <div class="links" id="links"></div>
+        <p class="email" id="email"></p>
+      </div>
+    </div>
+    <h2>Updates</h2>
+    <ul class="updates" id="updates"></ul>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="view" id="view-publications">
+    <h1 class="page-title">Publications</h1>
+    <p class="page-sub" id="pub-sub"></p>
+    <div class="filters" id="filters"></div>
+    <div id="pubs"></div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="view" id="view-experience">
+    <h1 class="page-title">Experience</h1>
+    <p class="page-sub">Research and industry roles, most recent first.</p>
+    <h2 style="margin-top:8px">Research &amp; Industry</h2>
+    <ul class="timeline" id="jobs"></ul>
+    <h2>Education</h2>
+    <ul class="timeline" id="edu"></ul>
+  </section>
+</main>
+
+<footer><div class="bar" id="foot"></div></footer>
+
+<script>
+/* ============================================================
+   EDIT YOUR CONTENT HERE — everything on the site comes from this object.
+   ============================================================ */
+const SITE = {
+  name: "Your Name",
+  role: "Ph.D. Scholar · Computer Science & Engineering · Your University",
+  photo: "", // paste a data: URI here for your own photo; leave empty for initials
+  bio: [
+    `I am a Ph.D. fellow in the Department of Computer Science and Engineering at <a href="#" target="_blank" rel="noopener">Your University</a>, advised by <a href="#" target="_blank" rel="noopener">Prof. Advisor Name</a>. I am part of the <a href="#" target="_blank" rel="noopener">Research Group</a>.`,
+    `My research focuses on <b>your research area</b> — for example, building multimodal models that understand text, images and video, and applying them to real-world problems.`,
+    `Before my Ph.D., I spent about three years as a software engineer at Company A, Company B and Company C. I received my B.Tech. from Your Undergraduate Institute in 2020.`
+  ],
+  email: "yourname [at] university [dot] edu",
+  links: [
+    { label: "Google Scholar", url: "https://scholar.google.com/", icon: "scholar" },
+    { label: "LinkedIn",       url: "https://www.linkedin.com/",   icon: "linkedin" },
+    { label: "GitHub",         url: "https://github.com/",         icon: "github" },
+    { label: "CV",             url: "#",                           icon: "cv" }
+  ],
+  updates: [
+    { date: "Nov 2026", tag: "Paper",      text: `Paper on <i>Topic X</i> accepted at <b>ACL 2026</b>. <a href="#">[paper]</a>` },
+    { date: "Sep 2026", tag: "Internship", text: `Started a research internship at <b>Company Name</b>.` },
+    { date: "Jul 2026", tag: "Talk",       text: `Gave a keynote talk at <b>Event Name</b>. <a href="#">[event]</a> <a href="#">[slides]</a>` },
+    { date: "May 2026", tag: "Paper",      text: `Two papers accepted at <b>EMNLP 2026</b> and <b>ACM Multimedia 2026</b>.` },
+    { date: "Jan 2026", tag: "Award",      text: `Received the <b>Award Name</b> for research contributions.` },
+    { date: "Oct 2025", tag: "Paper",      text: `Journal paper accepted at <b>TACL</b>. <a href="#">[paper]</a>` }
+  ],
+  publications: [
+    { year: 2026, type: "Conference", title: "A Multimodal Framework for Understanding Harmful Content in Short Videos",
+      authors: ["Your Name", "Co-author One", "Advisor Name"], venue: "ACL 2026", note: "Main Conference",
+      links: { Paper: "#", Code: "#" } },
+    { year: 2026, type: "Conference", title: "Benchmarking Vision-Language Models for Content Moderation",
+      authors: ["Co-author Two", "Your Name", "Advisor Name"], venue: "EMNLP 2026", note: "Findings",
+      links: { Paper: "#", Dataset: "#" } },
+    { year: 2026, type: "Conference", title: "Explaining Model Decisions on Memes with Structured Rationales",
+      authors: ["Your Name", "Co-author Three", "Advisor Name"], venue: "ACM Multimedia 2026",
+      links: { Paper: "#" } },
+    { year: 2025, type: "Journal", title: "A Survey of Multimodal Learning for Online Safety",
+      authors: ["Your Name", "Advisor Name"], venue: "Transactions of the ACL (TACL)",
+      links: { Paper: "#" } },
+    { year: 2025, type: "Workshop", title: "Low-Resource Detection of Abusive Language in Code-Mixed Text",
+      authors: ["Your Name", "Co-author Four"], venue: "COLING 2025 Workshop",
+      links: { Paper: "#", Code: "#" } }
+  ],
+  jobs: [
+    { title: "Research Intern", org: "Company Name", place: "City", when: "Sep 2026 – Present",
+      points: ["Working on multimodal model evaluation.", "Add one or two lines about your contribution."] },
+    { title: "Research Intern", org: "Company Name", place: "City", when: "May 2025 – Aug 2025",
+      points: ["Describe the project and its outcome."] },
+    { title: "Software Engineer", org: "Company A", place: "City", when: "Jul 2022 – Jul 2023",
+      points: ["Built and shipped features used by millions of users."] },
+    { title: "Software Engineer", org: "Company B", place: "City", when: "Jul 2020 – Jun 2022",
+      points: ["Describe your role and key achievements."] }
+  ],
+  education: [
+    { title: "Ph.D., Computer Science & Engineering", org: "Your University", when: "2023 – Present",
+      points: ["Advisor: Prof. Advisor Name"] },
+    { title: "B.Tech., Your Branch", org: "Your Undergraduate Institute", when: "2016 – 2020", points: [] }
+  ]
+};
+/* ============================================================ */
+
+const ICONS = {
+  scholar: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-6.8 9.2V16c0 2.2 3 4 6.8 4s6.8-1.8 6.8-4v-3.8L12 16l-6.8-3.8z"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3V9.5zm7 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4V9.5z"/></svg>',
+  github:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>',
+  cv:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+  link:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>'
+};
+const $ = id => document.getElementById(id);
+const initials = SITE.name.split(/\s+/).map(w => w[0]).slice(0,2).join("").toUpperCase();
+
+// Header / footer
+document.title = SITE.name + " — Personal Website";
+$("brand").textContent = SITE.name;
+$("foot").textContent = "© " + new Date().getFullYear() + " " + SITE.name;
+
+// Home
+$("name").textContent = SITE.name;
+$("role").textContent = SITE.role;
+$("photo").innerHTML = SITE.photo
+  ? `<img src="${SITE.photo}" alt="${SITE.name}">`
+  : `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="var(--accent-soft)"/><text x="100" y="118" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="68" font-weight="700" fill="var(--accent)">${initials}</text></svg>`;
+$("bio").innerHTML = SITE.bio.map(p => `<p>${p}</p>`).join("");
+$("links").innerHTML = SITE.links.map(l =>
+  `<a class="chip" href="${l.url}" target="_blank" rel="noopener">${ICONS[l.icon] || ICONS.link}${l.label}</a>`).join("");
+$("email").innerHTML = `Email: <code>${SITE.email}</code>`;
+$("updates").innerHTML = SITE.updates.map(u =>
+  `<li><span class="date">${u.date}</span><span>${u.tag ? `<span class="badge">${u.tag}</span>` : ""}${u.text}</span></li>`).join("");
+
+// Publications with filters
+const types = ["All", ...new Set(SITE.publications.map(p => p.type))];
+let filter = "All";
+$("pub-sub").textContent = `${SITE.publications.length} papers · reverse chronological. See also Google Scholar for the full list.`;
+function renderPubs(){
+  $("filters").innerHTML = types.map(t =>
+    `<button class="${t===filter?"on":""}" data-t="${t}">${t}</button>`).join("");
+  const list = SITE.publications.filter(p => filter==="All" || p.type===filter);
+  const years = [...new Set(list.map(p => p.year))].sort((a,b) => b-a);
+  $("pubs").innerHTML = years.map(y => `<div class="year">${y}</div>` + list.filter(p => p.year===y).map(p => `
+    <div class="pub">
+      <p class="pub-title">${p.title}</p>
+      <p class="authors">${p.authors.map(a => a===SITE.name ? `<b>${a}</b>` : a).join(", ")}</p>
+      <p class="venue"><em>${p.venue}</em>${p.note ? " · " + p.note : ""}</p>
+      ${p.links ? `<div class="pub-links">${Object.entries(p.links).map(([k,v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("")}</div>` : ""}
+    </div>`).join("")).join("");
+}
+$("filters").addEventListener("click", e => { const b = e.target.closest("button"); if(b){ filter = b.dataset.t; renderPubs(); } });
+renderPubs();
+
+// Experience
+const jobHTML = j => `<li class="job">
+  <div class="job-head"><h3>${j.title}</h3><span class="when">${j.when}</span></div>
+  <p class="org">${j.org}${j.place ? " · " + j.place : ""}</p>
+  ${j.points && j.points.length ? `<ul>${j.points.map(x => `<li>${x}</li>`).join("")}</ul>` : ""}
+</li>`;
+$("jobs").innerHTML = SITE.jobs.map(jobHTML).join("");
+$("edu").innerHTML = SITE.education.map(jobHTML).join("");
+
+// Hash routing
+const VIEWS = ["home","publications","experience"];
+function route(){
+  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "home";
+  VIEWS.forEach(x => $("view-"+x).classList.toggle("active", x===v));
+  document.querySelectorAll("nav a").forEach(a => a.classList.toggle("active", a.dataset.view===v));
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
